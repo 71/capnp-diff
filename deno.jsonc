@@ -1,0 +1,29 @@
+{
+  "tasks": {
+    "compile-capnp": "capnp compile lib/capnp/schema.capnp lib/capnp/schema-diff.capnp --no-standard-import -o- | deno run --allow-env --allow-read --allow-write=lib npm:capnp-es@0.0.7 -ots && sed -i '' 's,./schema.js,./schema.ts,' lib/capnp/schema-diff.ts",
+    "generate-default-breakage": "cat lib/capnp/schema-diff.capnp | deno run tools/internal/generate-breakages.ts > lib/internal/breakages.ts",
+    "prepare": {
+      "dependencies": [
+        "compile-capnp",
+        "generate-default-breakage"
+      ]
+    },
+    "test": "deno test --allow-read --allow-run=capnp --allow-write --parallel tests/**/*.ts"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1.0.11",
+    "@std/fmt": "jsr:@std/fmt@1.0.2",
+    "capnp-es": "npm:capnp-es@0.0.7",
+    "typescript": "npm:typescript@5.7.3" // Required by `capnp-es`.
+  },
+  "compilerOptions": {
+    // `capnp-es`-generated code does not use `override`.
+    "noImplicitOverride": false
+  },
+  "fmt": {
+    "exclude": ["lib/capnp"]
+  },
+  "lint": {
+    "exclude": ["lib/capnp"]
+  }
+}

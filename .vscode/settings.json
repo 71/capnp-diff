@@ -1,0 +1,13 @@
+{
+  "deno.enable": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno",
+    "editor.formatOnSave": true
+  },
+  "cSpell.words": [
+    "capnp",
+    "capnproto",
+    "enumerant",
+    "enumerants"
+  ]
+}
